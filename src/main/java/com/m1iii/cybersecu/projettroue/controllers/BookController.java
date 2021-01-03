@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.util.*;
 
+/**
+ * Endpoint de l'application pour accéder aux traitements qui concernent un livre
+ * adresse de base du endpoint http://localhost:<port>/api/books
+ */
 @RestController
 @Transactional
 @RequestMapping("/api/books")

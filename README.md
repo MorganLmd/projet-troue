@@ -9,8 +9,8 @@
 
 ### Pour que le projet soit reçevable, ses pré-requis sont :
 
-- [ ] Le projet doit pouvoir être lancé avec une commande docker (et donc doit avoir un Dockerfile).
-- [ ] La commande doit apparaitre dans /README.md
+- [X] Le projet doit pouvoir être lancé avec une commande docker (et donc doit avoir un Dockerfile).
+- [X] La commande doit apparaitre dans /README.md
 - [ ] Le projet doit faire apparaitre un dossier /tests qui contiendra les tests unitaires qui permettraient de trouver
   les vulnérabilités dans votre code (vous avez carte blanche sur votre framework de test)
     - Par exemple : Un test d'injection SQL sur un paramètre GET
@@ -39,8 +39,8 @@
 - **15/12/2020** | Création et invitation sur le repo Github
     - [X] de **loris-intergalactique** en tant que collaborateur sur le projet
 - **03/12/2020** | Je veux pouvoir lancer une image Docker et que tout fonctionne correctement.
-    - [ ] La commande Docker à faire doit apparaître dans le README.
-    - [ ] Expliquez dans le README ce que fait votre travail :)
+    - [X] La commande Docker à faire doit apparaître dans le README.
+    - [X] Expliquez dans le README ce que fait votre travail :)
     - [ ] La surface d'attaque doit être faite dans un fichier mermaidjs qui apparait dans le repo.
     - [ ] Vos objectifs de sécurité (C, I, D, T) doivent apparaitre : Une note/5 et une explication
 
@@ -48,7 +48,7 @@
 Cette API est une petite application qui permet à des utilisateurs de lister les livres qu'ils possèdent. Les fonctions principales de l'API consisteront donc à permettre la création et la modification des utilisateurs (User) et des livres (Books).
 
 ### Architecture
-Le projet est une simple API multi couche : endpoints => couche accès aux données => base de données. L'API est codée en java avec le framework Spring. L'ORM (Object Relationnal Mapping) JPA (standard Java) gère les transactions objet/relationnel et les connexions avec la base de données. 
+Le projet est une simple API multi couche : endpoints => couche accès aux données => base de données. L'API est codée en java avec le framework Spring. L'ORM (Object Relationnal Mapping) JPA (Java Persistence API : ORM standard Java) gère les transactions objet/relationnel et les connexions avec la base de données. 
 La programmation évite volontairement toutes les bonnes pratiques de développement et de sécurisation d'une véritable API multi-couche dans le but de facilement mettre en évidence les différentes failles possibles telles qu'on les trouve encore sur de nombreux sites amateurs.
 
 ### Base de données
@@ -58,7 +58,17 @@ Base de données H2 stockées en mémoire pour faciliter l'utilisation et les te
 
 ### Commande Docker
 
-<code>commande docker</code>
+Pour télécharger et lancer l'image Docker exécuter cette commande dans un terminal
+
+<code>docker run --name morganlombard-projettroue -p 8080:8080 morganlmd/projettroue</code>
+
+l'application sera dès lors accessible à cette adresse : http://localhost:8080
+
+Pour fermer l'application dans le terminal <code>ctrl + c</code>
+
+Pour relancer le container si l'application est fermée <code>docker start morganlombard-projettroue</code>
+
+Pour stoper le container <code>docker stop morganlombard-projettroue</code>
 
 ## Objectifs de sécurité
 
@@ -71,6 +81,10 @@ Base de données H2 stockées en mémoire pour faciliter l'utilisation et les te
 ### Traçabilité
 
 ## Surface d'attaque
+
+[![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggVERcbiAgICBBW09TXSAtLT4gQltET0NLRVJdXG4gICAgQiAtLT4gQ1tTRVJWRVVSIEFQUF1cbiAgICBCIC0tPiBEW1NFUlZFVVIgQkREXVxuICAgIEQgLS0-IEhbQkREIEgyXVxuICAgIEMgLS0-IEVbQVBJIEpBVkEgU1BSSU5HQk9PVF1cbiAgICBIIC0uT1JNIEpQQS4tIEVcbiAgICBFIC0tPiBGW0VORFBPSU5UIC9hcGkvdXNlcnNdXG4gICAgRSAtLT4gR1tFTkRQT0lOVCAvYXBpL2Jvb2tzXVxuICAgIEUgLS0-IElbRU5EUE9JTlQgL2FwaS9hZG1pbl1cbiAgICBcbiAgICAgICAgICAgICIsIm1lcm1haWQiOnt9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlfQ)](https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoiZ3JhcGggVERcbiAgICBBW09TXSAtLT4gQltET0NLRVJdXG4gICAgQiAtLT4gQ1tTRVJWRVVSIEFQUF1cbiAgICBCIC0tPiBEW1NFUlZFVVIgQkREXVxuICAgIEQgLS0-IEhbQkREIEgyXVxuICAgIEMgLS0-IEVbQVBJIEpBVkEgU1BSSU5HQk9PVF1cbiAgICBIIC0uT1JNIEpQQS4tIEVcbiAgICBFIC0tPiBGW0VORFBPSU5UIC9hcGkvdXNlcnNdXG4gICAgRSAtLT4gR1tFTkRQT0lOVCAvYXBpL2Jvb2tzXVxuICAgIEUgLS0-IElbRU5EUE9JTlQgL2FwaS9hZG1pbl1cbiAgICBcbiAgICAgICAgICAgICIsIm1lcm1haWQiOnt9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlfQ)
+
+La liaison en pointillés montre l'ORM utilisé pour l'accès à la base de données.
 
 ## Analyse de sécurité
 

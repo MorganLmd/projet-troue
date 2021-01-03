@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.util.*;
 
+/**
+ * Endpoint de l'application pour accéder aux traitements qui concernent un utilisateur
+ * adresse de base du endpoint http://localhost:<port>/api/users
+ */
 @RestController
 @Transactional
 @RequestMapping("/api/users")
