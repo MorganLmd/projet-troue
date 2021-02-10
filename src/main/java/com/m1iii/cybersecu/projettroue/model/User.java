@@ -1,230 +1,109 @@
 package com.m1iii.cybersecu.projettroue.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.m1iii.cybersecu.projettroue.security.ApplicationUserRole;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Collection;
 import java.util.Set;
 
+@Getter
+@Setter
+@Builder
 @Entity
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName;
-    private String lastName;
     private String address;
-    private String postalCode;
-    private String city;
-    private String phoneNumber;
     private String creditCardNumber;
-    private Date creditCardDate;
-    private String creditCardSecurityCode;
     private String email;
-    private String password;
 
     @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    private ApplicationUserRole userRole;
 
     @Transient
-    boolean isLoggedIn = false;
+    private Set<? extends GrantedAuthority> grantedAuthorities;
+    private String password;
+    private String username;
+    private boolean isAccountNonLocked;
+    private boolean isAccountNonExpired;
+    private boolean isCredentialNonExpired;
+    private boolean isEnabled;
 
-    @ManyToMany(mappedBy = "owners")
+    @ManyToMany
+    @JoinTable(name = "book_owner",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_book"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Set<Book> booksOwned;
 
+    public User(Set<? extends GrantedAuthority> grantedAuthorities, String password, String username, boolean isAccountNonLocked, boolean isAccountNonExpired, boolean isCredentialNonExpired, boolean isEnabled) {
+        this.grantedAuthorities = grantedAuthorities;
+        this.password = password;
+        this.username = username;
+        this.isAccountNonLocked = isAccountNonLocked;
+        this.isAccountNonExpired = isAccountNonExpired;
+        this.isCredentialNonExpired = isCredentialNonExpired;
+        this.isEnabled = isEnabled;
+    }
+
+    public User(Long id, String address, String creditCardNumber, String email, ApplicationUserRole userRole, Set<? extends GrantedAuthority> grantedAuthorities, String password, String username, boolean isAccountNonLocked, boolean isAccountNonExpired, boolean isCredentialNonExpired, boolean isEnabled, Set<Book> booksOwned) {
+        this.id = id;
+        this.address = address;
+        this.creditCardNumber = creditCardNumber;
+        this.email = email;
+        this.userRole = userRole;
+        this.grantedAuthorities = grantedAuthorities;
+        this.password = password;
+        this.username = username;
+        this.isAccountNonLocked = isAccountNonLocked;
+        this.isAccountNonExpired = isAccountNonExpired;
+        this.isCredentialNonExpired = isCredentialNonExpired;
+        this.isEnabled = isEnabled;
+        this.booksOwned = booksOwned;
+    }
+
     public User() {
+
     }
 
-    public User(String firstName, String lastName, String address, String postalCode, String city, String phoneNumber, String creditCardNumber, Date creditCardDate, String creditCardSecurityCode, String email, String password, UserRole userRole) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.postalCode = postalCode;
-        this.city = city;
-        this.phoneNumber = phoneNumber;
-        this.creditCardNumber = creditCardNumber;
-        this.creditCardDate = creditCardDate;
-        this.creditCardSecurityCode = creditCardSecurityCode;
-        this.email = email;
-        this.password = password;
-        this.userRole = userRole;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.grantedAuthorities;
     }
 
-    public User(Long id, String firstName, String lastName, String address, String postalCode, String city, String phoneNumber, String creditCardNumber, Date creditCardDate, String creditCardSecurityCode, String email, String password, UserRole userRole) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.postalCode = postalCode;
-        this.city = city;
-        this.phoneNumber = phoneNumber;
-        this.creditCardNumber = creditCardNumber;
-        this.creditCardDate = creditCardDate;
-        this.creditCardSecurityCode = creditCardSecurityCode;
-        this.email = email;
-        this.password = password;
-        this.userRole = userRole;
+    @Override
+    public String getUsername() {
+        return null;
     }
 
-    public User(Long id, String firstName, String lastName, String address, String postalCode, String city, String phoneNumber, String creditCardNumber, Date creditCardDate, String creditCardSecurityCode, String email, String password, UserRole userRole, boolean isLoggedIn) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.postalCode = postalCode;
-        this.city = city;
-        this.phoneNumber = phoneNumber;
-        this.creditCardNumber = creditCardNumber;
-        this.creditCardDate = creditCardDate;
-        this.creditCardSecurityCode = creditCardSecurityCode;
-        this.email = email;
-        this.password = password;
-        this.userRole = userRole;
-        this.isLoggedIn = isLoggedIn;
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
     }
 
-    public User(Long id, String firstName, String lastName, String address, String postalCode, String city, String phoneNumber, String creditCardNumber, Date creditCardDate, String creditCardSecurityCode, String email, String password, UserRole userRole, boolean isLoggedIn, Set<Book> booksOwned) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.postalCode = postalCode;
-        this.city = city;
-        this.phoneNumber = phoneNumber;
-        this.creditCardNumber = creditCardNumber;
-        this.creditCardDate = creditCardDate;
-        this.creditCardSecurityCode = creditCardSecurityCode;
-        this.email = email;
-        this.password = password;
-        this.userRole = userRole;
-        this.isLoggedIn = isLoggedIn;
-        this.booksOwned = booksOwned;
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getCreditCardNumber() {
-        return creditCardNumber;
-    }
-
-    public void setCreditCardNumber(String creditCardNumber) {
-        this.creditCardNumber = creditCardNumber;
-    }
-
-    public Date getCreditCardDate() {
-        return creditCardDate;
-    }
-
-    public void setCreditCardDate(Date creditCardDate) {
-        this.creditCardDate = creditCardDate;
-    }
-
-    public String getCreditCardSecurityCode() {
-        return creditCardSecurityCode;
-    }
-
-    public void setCreditCardSecurityCode(String creditCardSecurityCode) {
-        this.creditCardSecurityCode = creditCardSecurityCode;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public UserRole getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
-    }
-
-    public boolean isLoggedIn() {
-        return isLoggedIn;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-        isLoggedIn = loggedIn;
-    }
-
-    public Set<Book> getBooksOwned() {
-        return booksOwned;
-    }
-
-    public void setBooksOwned(Set<Book> booksOwned) {
-        this.booksOwned = booksOwned;
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }
