@@ -8,6 +8,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class PasswordConfig {
 
+    /**
+     * retourne un encoder BCrypt pour les chiffrement des mots de passe
+     * force à 10 pour une sécurité efficace, sans trop ralentir l'application mais en limitant la capacité des attaques par force brute
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);

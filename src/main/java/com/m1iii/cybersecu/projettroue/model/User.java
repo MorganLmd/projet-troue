@@ -47,23 +47,13 @@ public class User implements Serializable, UserDetails {
     @JsonIgnore
     private Set<Book> booksOwned;
 
-    public User(Set<? extends GrantedAuthority> grantedAuthorities, String password, String username, boolean isAccountNonLocked, boolean isAccountNonExpired, boolean isCredentialNonExpired, boolean isEnabled) {
-        this.grantedAuthorities = grantedAuthorities;
-        this.password = password;
-        this.username = username;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isCredentialNonExpired = isCredentialNonExpired;
-        this.isEnabled = isEnabled;
-    }
-
     public User(Long id, String address, String creditCardNumber, String email, ApplicationUserRole userRole, Set<? extends GrantedAuthority> grantedAuthorities, String password, String username, boolean isAccountNonLocked, boolean isAccountNonExpired, boolean isCredentialNonExpired, boolean isEnabled, Set<Book> booksOwned) {
         this.id = id;
         this.address = address;
         this.creditCardNumber = creditCardNumber;
         this.email = email;
         this.userRole = userRole;
-        this.grantedAuthorities = grantedAuthorities;
+        this.grantedAuthorities = userRole.getGrantedAuthorities();
         this.password = password;
         this.username = username;
         this.isAccountNonLocked = isAccountNonLocked;

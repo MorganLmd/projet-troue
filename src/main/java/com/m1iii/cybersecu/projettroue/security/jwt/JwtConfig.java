@@ -3,7 +3,10 @@ package com.m1iii.cybersecu.projettroue.security.jwt;
 import com.google.common.net.HttpHeaders;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-
+/**
+ * Fichier de configuration JWT généré à
+ * parti des données du application.properties
+ */
 @ConfigurationProperties(prefix = "application.jwt")
 public class JwtConfig {
 

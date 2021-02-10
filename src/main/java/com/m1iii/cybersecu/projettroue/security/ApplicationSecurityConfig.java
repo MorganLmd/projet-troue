@@ -20,6 +20,9 @@ import javax.crypto.SecretKey;
 
 import static com.m1iii.cybersecu.projettroue.security.ApplicationUserRole.*;
 
+/**
+ * Classe de configuration de spring sécurity
+ */
 @AllArgsConstructor
 @Configuration
 @EnableWebSecurity
@@ -35,15 +38,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-                .csrf().disable()
+                .csrf().disable() // On disable CSRF car l'api n'a pas vocation a recevoir les requetes d'un utilisateur final (recommandation doc spring security)
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // On défini la gestion des sessions comme stateless
                 .and()
-                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
-                .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),JwtUsernameAndPasswordAuthenticationFilter.class)
+                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey)) // on passe par le premier filtre du vérification des credentials
+                .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),JwtUsernameAndPasswordAuthenticationFilter.class) // on passe par le deuxième filtre de vérification du token jwt
                 .authorizeRequests()
-                .antMatchers("/h2-console/**", "/", "index", "/css/*", "/js/*").permitAll()
-                .antMatchers("/api/**").hasRole(CLIENT.name())
+                .antMatchers("/h2-console/**").permitAll() // on autorise l'accès à la bdd h2 en mémoire (pour du test uniquement !!)
+                .antMatchers("/api/**").hasAnyRole(CLIENT.name(), ADMIN.name()) // on donne anncès aux endpoints en dessous de /api/ aux clients et admin
                 .anyRequest()
                 .authenticated();
 

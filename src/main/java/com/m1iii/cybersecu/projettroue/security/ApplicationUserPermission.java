@@ -1,5 +1,8 @@
 package com.m1iii.cybersecu.projettroue.security;
 
+/**
+ * Enumération pour configurer les différentes permissions disponibles par table
+ */
 public enum ApplicationUserPermission {
 
     CLIENT_READ("client:read"),

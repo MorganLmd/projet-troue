@@ -8,6 +8,11 @@ import java.util.stream.Collectors;
 
 import static com.m1iii.cybersecu.projettroue.security.ApplicationUserPermission.*;
 
+/**
+ * Roles de l'application avec les autorisations associées
+ * L'admin a toutes les autorisations
+ * le client n'en as pas, on lui donnera accès à des endpoints de l'API au cas par cas
+ */
 public enum ApplicationUserRole {
     CLIENT(Sets.newHashSet()),
     ADMIN(Sets.newHashSet(CLIENT_READ, CLIENT_WRITE, BOOK_READ, BOOK_WRITE));

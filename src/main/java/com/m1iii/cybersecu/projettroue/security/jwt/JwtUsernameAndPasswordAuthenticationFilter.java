@@ -17,6 +17,11 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
 
+/**
+ * Filtre utiliser par Spring security dans lequel vont passer toutes les requêtes entrante dans l'application
+ * Il permet de retourner un token jwt s'il l'authent est réussie
+ * Identification par token jwt également
+ */
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;

@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.crypto.SecretKey;
 
+/**
+ * Classe qui permet de gérer la clé secrète 
+ */
 @EnableConfigurationProperties(JwtConfig.class)
 @Configuration
 public class JwtSecretKey {

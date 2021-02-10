@@ -4,7 +4,6 @@ import com.m1iii.cybersecu.projettroue.model.Book;
 import com.m1iii.cybersecu.projettroue.model.User;
 import com.m1iii.cybersecu.projettroue.repositories.BookRepository;
 import com.m1iii.cybersecu.projettroue.repositories.UserRepository;
-import com.m1iii.cybersecu.projettroue.security.ApplicationUserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +13,10 @@ import java.util.HashSet;
 
 import static com.m1iii.cybersecu.projettroue.security.ApplicationUserRole.*;
 
+/**
+ * Classe qui n'a pas d'autres fonction que de précharger la base de données avec des données à manipuler
+ * Uniquement pour du test, n'a pas vocation à finir en prod
+ */
 @AllArgsConstructor
 @Component
 public class Dataloader implements CommandLineRunner {
