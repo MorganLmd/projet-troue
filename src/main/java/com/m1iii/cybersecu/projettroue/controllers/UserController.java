@@ -10,10 +10,12 @@ import java.util.*;
 /**
  * Endpoint de l'application pour accéder aux traitements qui concernent un utilisateur
  * adresse de base du endpoint http://localhost:<port>/api/users
+ * Les client n'ont pas accès à ce endpoint
+ * seulement les admins
  */
 @RestController
 @Transactional
-@RequestMapping("/api/users")
+@RequestMapping("/management/users")
 public class UserController {
 
     private final UserRepository userRepository;

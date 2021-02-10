@@ -47,6 +47,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/h2-console/**").permitAll() // on autorise l'accès à la bdd h2 en mémoire (pour du test uniquement !!)
                 .antMatchers("/api/**").hasAnyRole(CLIENT.name(), ADMIN.name()) // on donne anncès aux endpoints en dessous de /api/ aux clients et admin
+                .antMatchers("/management/**").hasRole(ADMIN.name()) // On donne accès aux endpoint sous /management/ seulement aux admins
                 .anyRequest()
                 .authenticated();
 
